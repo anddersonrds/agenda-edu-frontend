@@ -7,7 +7,7 @@ export const Container = styled.div`
   position: relative;
   margin: 0.4rem;
   border-radius: 10px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.15);
   transition: transform ${theme.transition.default};
   cursor: pointer;
 
@@ -18,6 +18,7 @@ export const Container = styled.div`
   }
 
   &:hover {
+    z-index: ${theme.layers.base};
     transform: translateY(-1.4rem);
   }
 `;
@@ -43,13 +44,13 @@ export const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 25px;
-  min-width: 25px;
+  height: 28px;
+  width: 28px;
   border-radius: 50%;
   font-family: ${theme.font.quicksand};
   font-weight: ${theme.font.bold};
   color: ${theme.colors.white};
-  padding: ${theme.spacings.minimum};
+  padding: ${theme.spacings.minimal};
   background: linear-gradient(${theme.colors.gradient});
 `;
 
