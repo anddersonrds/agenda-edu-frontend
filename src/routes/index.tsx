@@ -1,9 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from '../pages/Home';
-import Search from '../pages/Search';
-import MovieDetail from '../pages/MovieDetail';
+import Home from '../modules/pages/Home';
+import Search from '../modules/pages/Search';
+import MovieDetail from '../modules/pages/MovieDetail';
 
 const Routes = () => (
   <Switch>

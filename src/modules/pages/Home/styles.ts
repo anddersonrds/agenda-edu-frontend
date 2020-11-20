@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '../../../shared/styles/theme';
 
 export const Container = styled.div`
   display: flex;

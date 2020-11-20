@@ -2,20 +2,16 @@
 import React, { useState, createContext, useCallback } from 'react';
 import { MoviesService } from '../services/moviesService';
 
-type MoviesListProps = Array<{
-  id: number;
-  overview: string;
-  poster_path: string;
-  title: string;
-  vote_average: number;
-}>;
+import { getSmallImage, getBigImage } from '../utils';
+
+type MoviesListProps = Array<MovieProps>;
 
 type CastProps = Array<{
   id: number;
   cast_id: number;
   name: string;
   character: string;
-  profile_path: string;
+  profile_path?: string;
 }>;
 
 type SocialProps = {
@@ -26,8 +22,9 @@ type SocialProps = {
   twitter_id?: string;
 };
 
-type MovieDetailProps = {
+type MovieProps = {
   id: number;
+  image: string;
   genres: [
     {
       id: number;
@@ -46,7 +43,7 @@ type MovieDetailProps = {
 };
 
 type MoviesContextData = {
-  movieDetail: MovieDetailProps;
+  movieDetail: MovieProps;
   movies: MoviesListProps;
   searched: MoviesListProps;
   handlePopularMovies(): void;
@@ -60,9 +57,7 @@ export const MoviesContext = createContext<MoviesContextData>(
 
 export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
-  const [movieDetail, setMovieDetail] = useState<MovieDetailProps>(
-    {} as MovieDetailProps,
-  );
+  const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
   const [searched, setSearchedMovies] = useState<MoviesListProps>(
     [] as MoviesListProps,
   );
@@ -70,7 +65,12 @@ export const MoviesProvider: React.FC = ({ children }) => {
   const handlePopularMovies = useCallback(async () => {
     const moviesService = new MoviesService();
     const { data } = await moviesService.getPopularMovies();
-    setMovies(data.results);
+    setMovies(
+      data.results.map((movie: MovieProps) => ({
+        ...movie,
+        image: getSmallImage(movie.poster_path),
+      })),
+    );
   }, []);
 
   const handleGetMovieDetail = useCallback(async (id: string) => {
@@ -83,6 +83,7 @@ export const MoviesProvider: React.FC = ({ children }) => {
       ...detailData,
       cast: castData.cast,
       networks: socialData,
+      image: getBigImage(detailData.poster_path),
     });
   }, []);
 

@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useContext } from 'react';
 
-import { MoviesContext } from '../../context/MoviesContext';
+import { MoviesContext } from '../../../shared/context/MoviesContext';
 
-import Header from '../../components/Header';
-import MovieCard from '../../components/MovieCard';
+import Header from '../../../shared/components/Header';
+import MovieCard from '../../../shared/components/MovieCard';
 
 import * as S from './styles';
 
@@ -25,7 +25,7 @@ const Search = () => {
           <MovieCard
             key={movie.id}
             title={movie.title}
-            image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            image={movie.image}
             rating={movie.vote_average}
           />
         ))}

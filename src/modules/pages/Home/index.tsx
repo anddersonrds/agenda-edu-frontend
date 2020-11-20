@@ -2,10 +2,10 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { MoviesContext } from '../../context/MoviesContext';
+import { MoviesContext } from '../../../shared/context/MoviesContext';
 
-import Header from '../../components/Header';
-import MovieCard from '../../components/MovieCard';
+import Header from '../../../shared/components/Header';
+import MovieCard from '../../../shared/components/MovieCard';
 
 import * as S from './styles';
 
@@ -26,7 +26,7 @@ const Home = () => {
           <Link key={movie.id} to={`/movies/${movie.id}`}>
             <MovieCard
               title={movie.title}
-              image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              image={movie.image}
               rating={movie.vote_average}
             />
           </Link>

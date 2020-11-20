@@ -14,3 +14,11 @@ export const getLocaleDate = (date: string) => {
   const formattedDate = new Date(date).toLocaleDateString('pt-br');
   return formattedDate;
 };
+
+export const getSmallImage = (link: string) => {
+  return `https://image.tmdb.org/t/p/w342/${link}`;
+};
+
+export const getBigImage = (link: string) => {
+  return `https://image.tmdb.org/t/p/w500/${link}`;
+};

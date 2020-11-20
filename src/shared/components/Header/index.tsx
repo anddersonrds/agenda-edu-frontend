@@ -11,13 +11,11 @@ import { MoviesContext } from '../../context/MoviesContext';
 import * as S from './styles';
 
 type HeaderProps = {
-  icon?: React.ReactNode;
-  error?: string;
   logo?: boolean;
   back?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const Header = ({ icon, error, logo, back }: HeaderProps) => {
+const Header = ({ logo, back }: HeaderProps) => {
   const { handleSearchMovies } = useContext(MoviesContext);
   const [search, setSearch] = useState('');
 
@@ -51,13 +49,16 @@ const Header = ({ icon, error, logo, back }: HeaderProps) => {
           </Link>
         )}
 
-        <S.Form>
+        <S.Form
+          onSubmit={() => {
+            console.log('WOW');
+          }}
+        >
           <input
             type="text"
             placeholder="Pesquise filmes por nome"
             value={search}
             onChange={handleOnChange}
-            onSubmit={handleOnChange}
           />
           <button type="submit">Pesquisar</button>
         </S.Form>

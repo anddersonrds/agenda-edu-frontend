@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { MoviesContext } from '../../context/MoviesContext';
+import { MoviesContext } from '../../../shared/context/MoviesContext';
 
-import { getJustYear, fixRating, getLocaleDate } from '../../utils';
+import { getJustYear, fixRating, getLocaleDate } from '../../../shared/utils';
 
-import avatar from '../../assets/no-pic.png';
+import avatar from '../../../shared/assets/no-pic.png';
 
-import Header from '../../components/Header';
+import Header from '../../../shared/components/Header';
 
 import * as S from './styles';
 
@@ -31,10 +31,7 @@ const MovieDetail = () => {
           <S.DetailContainer>
             <S.InfoMovie>
               <S.BackDrop>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`}
-                  alt={movieDetail.title}
-                />
+                <img src={movieDetail.image} alt={movieDetail.title} />
               </S.BackDrop>
 
               <S.InfoContainer>
