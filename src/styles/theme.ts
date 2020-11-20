@@ -16,7 +16,7 @@ export default {
     xxlarge: '2.8rem',
   },
   spacings: {
-    minimum: '0.2rem',
+    minimal: '0.2rem',
     xxsmall: '0.8rem',
     xsmall: '1.6rem',
     small: '2.4rem',
@@ -40,6 +40,7 @@ export default {
     gradient: '82deg, #39e6d7 0%, #19cdbf 100%',
     light: '#f1ebf9',
     black: '#212529',
+    gray: '#808080',
     white: '#fff',
   },
 } as const;
