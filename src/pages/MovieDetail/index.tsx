@@ -4,6 +4,8 @@ import { MoviesContext } from '../../context/MoviesContext';
 
 import { getJustYear, fixRating, getLocaleDate } from '../../utils';
 
+import avatar from '../../assets/no-pic.png';
+
 import Header from '../../components/Header';
 
 import * as S from './styles';
@@ -82,16 +84,23 @@ const MovieDetail = () => {
               </S.InfoContainer>
             </S.InfoMovie>
             <S.WrapperStaff>
-              {movieDetail.cast &&
-                movieDetail.cast.map(staff => (
-                  <div>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w154${staff.profile_path}`}
-                      alt={staff.name}
-                    />
-                    <span>{staff.name}</span>
-                  </div>
-                ))}
+              <strong>Elenco Principal</strong>
+              <div>
+                {movieDetail.cast &&
+                  movieDetail.cast.map(staff => (
+                    <div>
+                      <img
+                        src={
+                          staff.profile_path !== null
+                            ? `https://image.tmdb.org/t/p/w154${staff.profile_path}`
+                            : avatar
+                        }
+                        alt={staff.name}
+                      />
+                      <span>{staff.name}</span>
+                    </div>
+                  ))}
+              </div>
             </S.WrapperStaff>
           </S.DetailContainer>
         </>
