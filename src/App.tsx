@@ -5,9 +5,13 @@ import Routes from './routes';
 
 import GlobalStyle from './styles/global';
 
+import { MoviesProvider } from './context/MoviesContext';
+
 const App = () => (
   <BrowserRouter>
-    <Routes />
+    <MoviesProvider>
+      <Routes />
+    </MoviesProvider>
     <GlobalStyle />
   </BrowserRouter>
 );
