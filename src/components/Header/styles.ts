@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { FiChevronLeft } from 'react-icons/fi';
-import { shade } from 'polished';
 
 import theme from '../../styles/theme';
 
@@ -11,7 +10,7 @@ export const Container = styled.div`
   padding: ${theme.spacings.xsmall} 0;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
   background: ${theme.colors.white};
-  z-index: ${theme.layers.base};
+  z-index: ${theme.layers.menu};
 `;
 
 export const HeaderContent = styled.div`
@@ -21,6 +20,10 @@ export const HeaderContent = styled.div`
   max-width: 1140px;
   width: 100%;
   margin: 0 auto;
+
+  > a {
+    height: 30px;
+  }
 `;
 
 export const LogoTMDB = styled.img`
@@ -50,6 +53,10 @@ export const Form = styled.form`
     border: 2px solid ${theme.colors.light};
     border-radius: ${theme.spacings.xxsmall};
     color: ${theme.colors.primary};
+
+    &:hover {
+      box-shadow: 1px 1px 1px ${theme.colors.light};
+    }
   }
 
   button {
@@ -64,14 +71,10 @@ export const Form = styled.form`
     color: ${theme.colors.primary};
     background: linear-gradient(${theme.colors.gradient});
 
-    transition: background-color ${theme.transition.default};
+    transition: background-color 0.5s;
 
     &:hover {
-      background: linear-gradient(
-        82deg,
-        ${shade(0.1, '#39e6d7')} 0%,
-        ${shade(0.1, '#19cdbf')} 100%
-      );
+      background: linear-gradient(82deg, #39e6d7 0%, #02b4e4 100%);
     }
   }
 `;
