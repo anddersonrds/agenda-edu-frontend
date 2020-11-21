@@ -1,5 +1,11 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import { Link } from 'react-router-dom';
 
 import { MoviesContext } from '../../../shared/context/MoviesContext';
@@ -10,20 +16,43 @@ import MovieCard from '../../../shared/components/MovieCard';
 import * as S from './styles';
 
 const Home = () => {
-  const { movies, handlePopularMovies } = useContext(MoviesContext);
+  const { movies, finalPage, handlePopularMovies } = useContext(MoviesContext);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const observer = useRef<IntersectionObserver>();
+
+  const lastMovieElementRef = useCallback(
+    node => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(async entries => {
+        if (entries[0].isIntersecting) {
+          setPage(state => state + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [setPage, loading],
+  );
 
   useEffect(() => {
-    if (movies.length === 0) {
-      handlePopularMovies();
-    }
-  }, [handlePopularMovies, movies]);
+    console.log(page);
+    handlePopularMovies(page);
+  }, [handlePopularMovies, page]);
 
   return (
     <S.Container>
       <Header logo />
       <S.MostPopularContainer>
         {movies.map(movie => (
-          <Link key={movie.id} to={`/movies/${movie.id}`}>
+          <Link
+            key={movie.id}
+            to={`/movies/${movie.id}`}
+            ref={lastMovieElementRef}
+          >
             <MovieCard
               title={movie.title}
               image={movie.image}

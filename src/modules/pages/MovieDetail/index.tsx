@@ -85,7 +85,7 @@ const MovieDetail = () => {
               <div>
                 {movieDetail.cast &&
                   movieDetail.cast.map(staff => (
-                    <div>
+                    <div key={staff.id}>
                       <img
                         src={
                           staff.profile_path !== null

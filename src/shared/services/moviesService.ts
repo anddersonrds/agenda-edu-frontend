@@ -7,10 +7,10 @@ export class MoviesService {
     this.API = clientApi();
   }
 
-  getPopularMovies = async () => {
+  getPopularMovies = async (page: number) => {
     try {
       const { data, status } = await this.API.get(
-        `movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR`,
+        `movie/popular?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&page=${page}`,
       );
       return { data, status };
     } catch (error) {

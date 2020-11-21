@@ -5,7 +5,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
 `;
 
 const appearFromBottom = keyframes`
@@ -27,6 +26,7 @@ export const MostPopularContainer = styled.div`
   justify-content: center;
   max-width: 1140px;
   padding: 11rem 0 ${theme.spacings.small} 0;
+  overflow: auto;
 
   animation: ${appearFromBottom} 1.5s;
 `;

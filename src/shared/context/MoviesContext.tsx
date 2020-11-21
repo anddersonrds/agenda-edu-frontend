@@ -43,12 +43,16 @@ type MovieProps = {
 };
 
 type MoviesContextData = {
-  movieDetail: MovieProps;
   movies: MoviesListProps;
+  movieDetail: MovieProps;
   searched: MoviesListProps;
-  handlePopularMovies(): void;
+  page: number;
+  finalPage: number;
+  handlePopularMovies(page: number): void;
   handleGetMovieDetail(id: string): void;
   handleSearchMovies(query: string): void;
+  setPage(page: number): void;
+  setFinalPage(page: number): void;
 };
 
 export const MoviesContext = createContext<MoviesContextData>(
@@ -58,19 +62,24 @@ export const MoviesContext = createContext<MoviesContextData>(
 export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
   const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
+  const [page, setPage] = useState<number>(1);
+  const [finalPage, setFinalPage] = useState<number>(1);
+
   const [searched, setSearchedMovies] = useState<MoviesListProps>(
     [] as MoviesListProps,
   );
 
-  const handlePopularMovies = useCallback(async () => {
+  const handlePopularMovies = useCallback(async (pageNumber: number) => {
     const moviesService = new MoviesService();
-    const { data } = await moviesService.getPopularMovies();
-    setMovies(
-      data.results.map((movie: MovieProps) => ({
+    const { data } = await moviesService.getPopularMovies(pageNumber);
+    setFinalPage(data.total_results);
+    setMovies(prevMovies => [
+      ...prevMovies,
+      ...data.results.map((movie: MovieProps) => ({
         ...movie,
         image: getSmallImage(movie.poster_path),
       })),
-    );
+    ]);
   }, []);
 
   const handleGetMovieDetail = useCallback(async (id: string) => {
@@ -90,9 +99,10 @@ export const MoviesProvider: React.FC = ({ children }) => {
   const handleSearchMovies = useCallback(async (query: string) => {
     const moviesService = new MoviesService();
     const { data, status } = await moviesService.searchMovies(query);
-    if (status === 200) {
-      setSearchedMovies(data.results);
-    }
+    console.log(data, status);
+    // if (status === 200) {
+    //   setSearchedMovies(data.results);
+    // }
   }, []);
 
   return (
@@ -101,9 +111,13 @@ export const MoviesProvider: React.FC = ({ children }) => {
         movies,
         movieDetail,
         searched,
+        page,
+        finalPage,
         handlePopularMovies,
         handleGetMovieDetail,
         handleSearchMovies,
+        setPage,
+        setFinalPage,
       }}
     >
       {children}
