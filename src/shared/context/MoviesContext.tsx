@@ -46,12 +46,11 @@ type MoviesContextData = {
   movies: MoviesListProps;
   movieDetail: MovieProps;
   searched: MoviesListProps;
-  page: number;
   finalPage: number;
-  handlePopularMovies(page: number): void;
-  handleGetMovieDetail(id: string): void;
+  handleShowMovies(page: number): void;
+  handleUpdateMovies(page: number): void;
+  handleGetMovie(id: string): void;
   handleSearchMovies(query: string): void;
-  setPage(page: number): void;
   setFinalPage(page: number): void;
 };
 
@@ -62,14 +61,25 @@ export const MoviesContext = createContext<MoviesContextData>(
 export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
   const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
-  const [page, setPage] = useState<number>(1);
   const [finalPage, setFinalPage] = useState<number>(1);
 
   const [searched, setSearchedMovies] = useState<MoviesListProps>(
     [] as MoviesListProps,
   );
 
-  const handlePopularMovies = useCallback(async (pageNumber: number) => {
+  const handleShowMovies = useCallback(async (pageNumber: number) => {
+    const moviesService = new MoviesService();
+    const { data } = await moviesService.getPopularMovies(pageNumber);
+    setFinalPage(data.total_results);
+    setMovies(
+      data.results.map((movie: MovieProps) => ({
+        ...movie,
+        image: getSmallImage(movie.poster_path),
+      })),
+    );
+  }, []);
+
+  const handleUpdateMovies = useCallback(async (pageNumber: number) => {
     const moviesService = new MoviesService();
     const { data } = await moviesService.getPopularMovies(pageNumber);
     setFinalPage(data.total_results);
@@ -82,12 +92,11 @@ export const MoviesProvider: React.FC = ({ children }) => {
     ]);
   }, []);
 
-  const handleGetMovieDetail = useCallback(async (id: string) => {
+  const handleGetMovie = useCallback(async (id: string) => {
     const moviesService = new MoviesService();
     const { data: detailData } = await moviesService.getMovieDetail(id);
     const { data: castData } = await moviesService.getCastByMovie(id);
     const { data: socialData } = await moviesService.getSocialNetworks(id);
-
     setMovieDetail({
       ...detailData,
       cast: castData.cast,
@@ -100,9 +109,6 @@ export const MoviesProvider: React.FC = ({ children }) => {
     const moviesService = new MoviesService();
     const { data, status } = await moviesService.searchMovies(query);
     console.log(data, status);
-    // if (status === 200) {
-    //   setSearchedMovies(data.results);
-    // }
   }, []);
 
   return (
@@ -111,12 +117,11 @@ export const MoviesProvider: React.FC = ({ children }) => {
         movies,
         movieDetail,
         searched,
-        page,
         finalPage,
-        handlePopularMovies,
-        handleGetMovieDetail,
+        handleShowMovies,
+        handleUpdateMovies,
+        handleGetMovie,
         handleSearchMovies,
-        setPage,
         setFinalPage,
       }}
     >

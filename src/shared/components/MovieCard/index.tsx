@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { fixRating } from '../../utils';
 
 import * as S from './styles';

@@ -16,18 +16,17 @@ type ParamsProps = {
 
 const MovieDetail = () => {
   const { id } = useParams<ParamsProps>();
-  const { movieDetail, handleGetMovieDetail } = useContext(MoviesContext);
+  const { movieDetail, handleGetMovie } = useContext(MoviesContext);
 
   useEffect(() => {
-    handleGetMovieDetail(id);
-  }, [id, handleGetMovieDetail]);
+    handleGetMovie(id);
+  }, [id, handleGetMovie]);
 
   return (
-    <S.Container>
+    <>
       <Header back />
-
-      {movieDetail && (
-        <>
+      <S.Container>
+        {movieDetail && movieDetail.image && (
           <S.DetailContainer>
             <S.InfoMovie>
               <S.BackDrop>
@@ -100,9 +99,9 @@ const MovieDetail = () => {
               </div>
             </S.WrapperStaff>
           </S.DetailContainer>
-        </>
-      )}
-    </S.Container>
+        )}
+      </S.Container>
+    </>
   );
 };
 

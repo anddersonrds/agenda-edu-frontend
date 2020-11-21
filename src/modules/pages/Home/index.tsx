@@ -16,7 +16,12 @@ import MovieCard from '../../../shared/components/MovieCard';
 import * as S from './styles';
 
 const Home = () => {
-  const { movies, finalPage, handlePopularMovies } = useContext(MoviesContext);
+  const {
+    movies,
+    finalPage,
+    handleShowMovies,
+    handleUpdateMovies,
+  } = useContext(MoviesContext);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -39,29 +44,38 @@ const Home = () => {
   );
 
   useEffect(() => {
-    console.log(page);
-    handlePopularMovies(page);
-  }, [handlePopularMovies, page]);
+    if (page === 1) {
+      handleShowMovies(page);
+    }
+  }, [page, handleShowMovies]);
+
+  useEffect(() => {
+    if (page > 1 && page <= finalPage) {
+      handleUpdateMovies(page);
+    }
+  }, [page, finalPage, handleUpdateMovies]);
 
   return (
-    <S.Container>
+    <>
       <Header logo />
-      <S.MostPopularContainer>
-        {movies.map(movie => (
-          <Link
-            key={movie.id}
-            to={`/movies/${movie.id}`}
-            ref={lastMovieElementRef}
-          >
-            <MovieCard
-              title={movie.title}
-              image={movie.image}
-              rating={movie.vote_average}
-            />
-          </Link>
-        ))}
-      </S.MostPopularContainer>
-    </S.Container>
+      <S.Container>
+        <S.MostPopularContainer>
+          {movies.map(movie => (
+            <Link
+              key={movie.id}
+              to={`/movies/${movie.id}`}
+              ref={lastMovieElementRef}
+            >
+              <MovieCard
+                title={movie.title}
+                image={movie.image}
+                rating={movie.vote_average}
+              />
+            </Link>
+          ))}
+        </S.MostPopularContainer>
+      </S.Container>
+    </>
   );
 };
 
