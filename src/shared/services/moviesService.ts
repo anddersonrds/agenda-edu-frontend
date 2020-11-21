@@ -52,13 +52,21 @@ export class MoviesService {
   };
 
   searchMovies = async (query: string) => {
-    try {
-      const { data, status } = await this.API.get(
-        `query/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&query=${query}`,
-      );
-      return { data, status };
-    } catch (error) {
-      return { error };
-    }
+    // try {
+    //   const { data, status } = await this.API.get(
+    //     `search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&query=${query}`,
+    //   );
+    //   return { data, status };
+    //   // eslint-disable-next-line no-empty
+    // } catch (error) {}
+    await this.API.get(
+      `search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&query=${query}`,
+    )
+      .then((response: any) => {
+        console.log(response);
+      })
+      .catch((error: any) => {
+        // console.log('EHHHH', error);
+      });
   };
 }

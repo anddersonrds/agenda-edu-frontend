@@ -45,12 +45,11 @@ type MovieProps = {
 type MoviesContextData = {
   movies: MoviesListProps;
   movieDetail: MovieProps;
-  searched: MoviesListProps;
   finalPage: number;
   handleShowMovies(page: number): void;
   handleUpdateMovies(page: number): void;
   handleGetMovie(id: string): void;
-  handleSearchMovies(query: string): void;
+  handleFindMovies(query: string): void;
   setFinalPage(page: number): void;
 };
 
@@ -62,10 +61,6 @@ export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
   const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
   const [finalPage, setFinalPage] = useState<number>(1);
-
-  const [searched, setSearchedMovies] = useState<MoviesListProps>(
-    [] as MoviesListProps,
-  );
 
   const handleShowMovies = useCallback(async (pageNumber: number) => {
     const moviesService = new MoviesService();
@@ -82,7 +77,6 @@ export const MoviesProvider: React.FC = ({ children }) => {
   const handleUpdateMovies = useCallback(async (pageNumber: number) => {
     const moviesService = new MoviesService();
     const { data } = await moviesService.getPopularMovies(pageNumber);
-    setFinalPage(data.total_results);
     setMovies(prevMovies => [
       ...prevMovies,
       ...data.results.map((movie: MovieProps) => ({
@@ -105,10 +99,11 @@ export const MoviesProvider: React.FC = ({ children }) => {
     });
   }, []);
 
-  const handleSearchMovies = useCallback(async (query: string) => {
+  const handleFindMovies = useCallback(async (query: string) => {
     const moviesService = new MoviesService();
-    const { data, status } = await moviesService.searchMovies(query);
-    console.log(data, status);
+    const data = await moviesService.searchMovies(query);
+    console.log('DATA', data);
+    // console.log('STATUS', status);
   }, []);
 
   return (
@@ -116,12 +111,11 @@ export const MoviesProvider: React.FC = ({ children }) => {
       value={{
         movies,
         movieDetail,
-        searched,
         finalPage,
         handleShowMovies,
         handleUpdateMovies,
         handleGetMovie,
-        handleSearchMovies,
+        handleFindMovies,
         setFinalPage,
       }}
     >

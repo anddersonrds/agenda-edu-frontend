@@ -9,7 +9,7 @@ import MovieCard from '../../../shared/components/MovieCard';
 import * as S from './styles';
 
 const Search = () => {
-  const { searched } = useContext(MoviesContext);
+  const { movies } = useContext(MoviesContext);
 
   // useEffect(() => {
   //   if (movies.length === 0) {
@@ -21,7 +21,7 @@ const Search = () => {
     <S.Container>
       <Header logo />
       <S.MostPopularContainer>
-        {searched.map(movie => (
+        {movies.map(movie => (
           <MovieCard
             key={movie.id}
             title={movie.title}

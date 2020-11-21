@@ -45,12 +45,14 @@ const Home = () => {
 
   useEffect(() => {
     if (page === 1) {
+      console.log('P', page);
       handleShowMovies(page);
     }
   }, [page, handleShowMovies]);
 
   useEffect(() => {
     if (page > 1 && page <= finalPage) {
+      console.log('P', page, 'F', finalPage);
       handleUpdateMovies(page);
     }
   }, [page, finalPage, handleUpdateMovies]);
