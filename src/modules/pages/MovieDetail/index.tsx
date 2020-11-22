@@ -25,7 +25,7 @@ const MovieDetail = () => {
 
   return (
     <>
-      <Header back />
+      <Header back breakPoint />
       <S.Container>
         {movieDetail && movieDetail.image && (
           <S.DetailContainer>
@@ -80,7 +80,7 @@ const MovieDetail = () => {
 
             <S.Wrapper>
               <S.Title>Elenco Principal</S.Title>
-              <MovieCasts moviecasts={movieDetail.cast} />
+              <MovieCasts moviecasts={movieDetail.cast && movieDetail.cast} />
             </S.Wrapper>
           </S.DetailContainer>
         )}

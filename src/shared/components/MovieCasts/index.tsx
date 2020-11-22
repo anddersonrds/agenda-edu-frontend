@@ -5,7 +5,7 @@ import { getSmallImage } from '../../utils';
 import * as S from './styles';
 
 type MovieCastsProps = {
-  moviecasts: Array<MovieCastProps>;
+  moviecasts: Array<MovieCastProps> | undefined;
 };
 
 type MovieCastProps = {

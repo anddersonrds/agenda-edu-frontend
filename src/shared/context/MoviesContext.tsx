@@ -40,7 +40,7 @@ type MovieProps = {
   vote_average: number;
   vote_count: number;
   cast: CastProps;
-  networks: SocialProps;
+  networks?: SocialProps;
 };
 
 type MoviesContextData = {
@@ -48,13 +48,13 @@ type MoviesContextData = {
   movieDetail: MovieProps;
   finalPage: number;
   query: string;
-  handleShowMovies(page?: number): void;
-  handleUpdateMovies(page: number): void;
   handleGetMovie(id: string): void;
-  handleFindMovies(query: string, page?: number): void;
+  handleShowMovies(page: number): void;
+  handleUpdateMovies(page: number): void;
+  handleFindMovies(query: string, page: number): void;
   handleUpdateFindMovies(query: string, page: number): void;
-  setFinalPage(page: number): void;
   setQuery(query: string): void;
+  setFinalPage(page: number): void;
 };
 
 export const MoviesContext = createContext<MoviesContextData>(
@@ -64,32 +64,8 @@ export const MoviesContext = createContext<MoviesContextData>(
 export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
   const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
-  const [finalPage, setFinalPage] = useState<number>(1);
   const [query, setQuery] = useState<string>('');
-
-  const handleShowMovies = useCallback(async (pageNumber: number) => {
-    const moviesService = new MoviesService();
-    const { data } = await moviesService.getPopularMovies(pageNumber);
-    setFinalPage(data.total_results);
-    setMovies(
-      data.results.map((movie: MovieProps) => ({
-        ...movie,
-        image: getLargeImage(movie.poster_path),
-      })),
-    );
-  }, []);
-
-  const handleUpdateMovies = useCallback(async (pageNumber: number) => {
-    const moviesService = new MoviesService();
-    const { data } = await moviesService.getPopularMovies(pageNumber);
-    setMovies(prevMovies => [
-      ...prevMovies,
-      ...data.results.map((movie: MovieProps) => ({
-        ...movie,
-        image: getMediumImage(movie.poster_path),
-      })),
-    ]);
-  }, []);
+  const [finalPage, setFinalPage] = useState<number>(1);
 
   const handleGetMovie = useCallback(async (id: string) => {
     const moviesService = new MoviesService();
@@ -102,6 +78,30 @@ export const MoviesProvider: React.FC = ({ children }) => {
       networks: socialData,
       image: getLargeImage(detailData.poster_path),
     });
+  }, []);
+
+  const handleShowMovies = useCallback(async (pageNumber: number) => {
+    const moviesService = new MoviesService();
+    const { data } = await moviesService.getPopularMovies(pageNumber);
+    setMovies(
+      data.results.map((movie: MovieProps) => ({
+        ...movie,
+        image: getLargeImage(movie.poster_path),
+      })),
+    );
+    setFinalPage(data.total_results);
+  }, []);
+
+  const handleUpdateMovies = useCallback(async (pageNumber: number) => {
+    const moviesService = new MoviesService();
+    const { data } = await moviesService.getPopularMovies(pageNumber);
+    setMovies(prevMovies => [
+      ...prevMovies,
+      ...data.results.map((movie: MovieProps) => ({
+        ...movie,
+        image: getMediumImage(movie.poster_path),
+      })),
+    ]);
   }, []);
 
   const handleFindMovies = useCallback(
@@ -146,13 +146,13 @@ export const MoviesProvider: React.FC = ({ children }) => {
         movieDetail,
         finalPage,
         query,
+        handleGetMovie,
         handleShowMovies,
         handleUpdateMovies,
-        handleGetMovie,
         handleFindMovies,
         handleUpdateFindMovies,
-        setFinalPage,
         setQuery,
+        setFinalPage,
       }}
     >
       {children}

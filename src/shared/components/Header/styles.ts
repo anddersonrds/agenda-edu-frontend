@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft, FiSearch } from 'react-icons/fi';
 
 import theme from '../../styles/theme';
 
@@ -40,7 +40,7 @@ export const GoBack = styled(FiChevronLeft)`
   }
 `;
 
-export const Form = styled.form`
+export const Form = styled.div`
   display: flex;
   max-width: 700px;
   width: 100%;
@@ -51,30 +51,36 @@ export const Form = styled.form`
     font-size: ${theme.sizes.medium};
     padding: 0 ${theme.spacings.small};
     border: 2px solid ${theme.colors.light};
-    border-radius: ${theme.spacings.xxsmall};
+    border-top-left-radius: ${theme.spacings.xxsmall};
+    border-bottom-left-radius: ${theme.spacings.xxsmall};
     color: ${theme.colors.primary};
 
     &:hover {
       box-shadow: 1px 1px 1px ${theme.colors.light};
     }
   }
+`;
 
-  button {
-    width: 150px;
-    height: 50px;
-    font-family: ${theme.font.quicksand};
-    font-size: ${theme.sizes.medium};
-    font-weight: ${theme.font.bold};
-    border: 0;
-    border-radius: ${theme.spacings.xxsmall};
-    margin-left: ${theme.spacings.xxsmall};
-    color: ${theme.colors.primary};
-    background: linear-gradient(${theme.colors.gradient});
+export const Button = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 80px;
+  height: 50px;
+  flex: 1;
+  font-family: ${theme.font.quicksand};
+  font-size: ${theme.sizes.medium};
+  font-weight: ${theme.font.bold};
+  border-top-right-radius: ${theme.spacings.xxsmall};
+  border-bottom-right-radius: ${theme.spacings.xxsmall};
+  background: linear-gradient(${theme.colors.gradient});
+  color: ${theme.colors.white};
 
-    transition: background-color 0.5s;
+  transition: background-color 0.5s;
 
-    &:hover {
-      background: linear-gradient(82deg, #39e6d7 0%, #02b4e4 100%);
-    }
+  &:hover {
+    background: linear-gradient(82deg, #39e6d7 0%, #02b4e4 100%);
   }
 `;
+
+export const IconSearch = styled(FiSearch)``;

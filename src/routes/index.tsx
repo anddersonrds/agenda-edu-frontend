@@ -1,13 +1,15 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from '../modules/pages/Home';
+import HomePopular from '../modules/pages/MoviePopular';
 import MovieDetail from '../modules/pages/MovieDetail';
+import MovieSearched from '../modules/pages/MovieSearched';
 
 const Routes = () => (
   <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/movies/:id" component={MovieDetail} />
+    <Route path="/" exact component={HomePopular} />
+    <Route path="/movies/:id" exact component={MovieDetail} />
+    <Route path="/movies/searched/:query" component={MovieSearched} />
   </Switch>
 );
 

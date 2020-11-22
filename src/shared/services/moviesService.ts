@@ -51,18 +51,7 @@ export class MoviesService {
     }
   };
 
-  // searchMovies = async (query: string) => {
-  //   try {
-  //     const { data, status } = await this.API.get(
-  //       `search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&query=${query}`,
-  //     );
-  //     return { data, status };
-  //   } catch (error) {
-  //     return { error };
-  //   }
-  // };
-
-  searchMovies = async (query?: string, page?: number) => {
+  searchMovies = async (query: string, page: number) => {
     try {
       const { data, status } = await this.API.get(
         `search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=pt-BR&query=${query}&page=${page}`,

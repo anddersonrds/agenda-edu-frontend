@@ -15,78 +15,45 @@ import MovieCard from '../../../shared/components/MovieCard';
 
 import * as S from './styles';
 
-const Home = () => {
+const MoviePopular = () => {
   const {
     movies,
-    query,
     finalPage,
     handleShowMovies,
     handleUpdateMovies,
-    handleFindMovies,
-    handleUpdateFindMovies,
   } = useContext(MoviesContext);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const observer = useRef<IntersectionObserver>();
+  const scrollObserver = useRef<IntersectionObserver>();
 
   const lastMovieElementRef = useCallback(
     node => {
       if (loading) return;
-      if (observer.current) observer.current.disconnect();
+      if (scrollObserver.current) scrollObserver.current.disconnect();
 
-      observer.current = new IntersectionObserver(async entries => {
+      scrollObserver.current = new IntersectionObserver(async entries => {
         if (entries[0].isIntersecting) {
           setPage(state => state + 1);
         }
       });
 
-      if (node) observer.current.observe(node);
+      if (node) scrollObserver.current.observe(node);
     },
     [setPage, loading],
   );
 
   useEffect(() => {
     if (page === 1) {
-      if (!query) {
-        handleShowMovies(page);
-      } else {
-        handleFindMovies(query);
-      }
+      handleShowMovies(page);
     }
-  }, [page, query, handleShowMovies, handleFindMovies]);
+  }, [page, handleShowMovies]);
 
   useEffect(() => {
     if (page > 1 && page <= finalPage) {
-      if (!query) {
-        handleUpdateMovies(page);
-      } else {
-        handleUpdateFindMovies(query, page);
-      }
+      handleUpdateMovies(page);
     }
-  }, [page, finalPage, query, handleUpdateMovies, handleUpdateFindMovies]);
-
-  const handleOnChangeInput = useCallback(() => {
-    if (query !== '') {
-      handleFindMovies(query);
-    }
-  }, [query, handleFindMovies]);
-
-  useEffect(() => {
-    handleOnChangeInput();
-  }, [handleOnChangeInput, query]);
-
-  // useEffect(() => {
-  //   if (page === 1) {
-  //     handleShowMovies(page);
-  //   }
-  // }, [page, handleShowMovies]);
-
-  // useEffect(() => {
-  //   if (page > 1 && page <= finalPage) {
-  //     handleUpdateMovies(page);
-  //   }
-  // }, [page, finalPage, handleUpdateMovies]);
+  }, [page, finalPage, handleUpdateMovies]);
 
   return (
     <>
@@ -96,8 +63,8 @@ const Home = () => {
           {movies.map(movie => (
             <Link
               key={movie.id}
-              to={`/movies/${movie.id}`}
               ref={lastMovieElementRef}
+              to={`/movies/${movie.id}`}
             >
               <MovieCard
                 title={movie.title}
@@ -112,4 +79,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MoviePopular;
