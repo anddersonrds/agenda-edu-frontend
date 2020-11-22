@@ -2,11 +2,12 @@ import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { MoviesContext } from '../../../shared/context/MoviesContext';
 
-import { getJustYear, fixRating, getLocaleDate } from '../../../shared/utils';
-
-import avatar from '../../../shared/assets/no-pic.png';
+import { fixRating, getLocaleDate } from '../../../shared/utils';
 
 import Header from '../../../shared/components/Header';
+import MovieBackdrop from '../../../shared/components/MovieBackdrop';
+import MovieTitle from '../../../shared/components/MovieTitle';
+import MovieCasts from '../../../shared/components/MovieCasts';
 
 import * as S from './styles';
 
@@ -29,75 +30,58 @@ const MovieDetail = () => {
         {movieDetail && movieDetail.image && (
           <S.DetailContainer>
             <S.InfoMovie>
-              <S.BackDrop>
-                <img src={movieDetail.image} alt={movieDetail.title} />
-              </S.BackDrop>
+              <MovieBackdrop src={movieDetail.image} alt={movieDetail.title} />
 
               <S.InfoContainer>
-                <S.WrapperTitle>
-                  <S.Title>{movieDetail.title}</S.Title>
+                <MovieTitle
+                  title={movieDetail.title}
+                  date={movieDetail.release_date}
+                />
 
-                  <S.Year>
-                    <S.IconMovie size={30} />
-                    {movieDetail.release_date &&
-                      getJustYear(movieDetail.release_date)}
-                  </S.Year>
-                </S.WrapperTitle>
-
-                <S.WrapperRatings>
+                <S.Wrapper horizontal>
                   <S.Tags>
                     {movieDetail.vote_average &&
                       fixRating(movieDetail.vote_average)}
                   </S.Tags>
-                  <span>Nota dos usuários</span>
-                </S.WrapperRatings>
+                  <S.Title>Nota dos usuários</S.Title>
+                </S.Wrapper>
 
-                <S.WrapperContent>
-                  <strong>Sinópse</strong>
-                  <p>{movieDetail.overview}</p>
+                <S.Wrapper>
+                  <S.Title>Sinópse</S.Title>
+                  <S.Content>
+                    {movieDetail.overview
+                      ? movieDetail.overview
+                      : 'Sinto muito, nenhuma sinópse foi encontrada.'}
+                  </S.Content>
                   {movieDetail.tagline && (
-                    <span>{`“${movieDetail.tagline}”`}</span>
+                    <S.Phrase>{`“${movieDetail.tagline}”`}</S.Phrase>
                   )}
-                </S.WrapperContent>
+                </S.Wrapper>
 
-                <S.WrapperContent>
-                  <strong>Data de lançamento</strong>
-                  <p>
+                <S.Wrapper>
+                  <S.Title>Data de lançamento</S.Title>
+                  <S.Content>
                     {movieDetail.release_date &&
                       getLocaleDate(movieDetail.release_date)}
-                  </p>
-                </S.WrapperContent>
+                  </S.Content>
+                </S.Wrapper>
 
-                <S.WrapperContent>
-                  <strong>Categorias</strong>
+                <S.Wrapper>
+                  <S.Title>Categorias</S.Title>
                   <S.Categories>
                     {movieDetail.genres &&
                       movieDetail.genres.map(genre => (
                         <S.Tags key={genre.id}>{genre.name}</S.Tags>
                       ))}
                   </S.Categories>
-                </S.WrapperContent>
+                </S.Wrapper>
               </S.InfoContainer>
             </S.InfoMovie>
-            <S.WrapperStaff>
-              <strong>Elenco Principal</strong>
-              <div>
-                {movieDetail.cast &&
-                  movieDetail.cast.map(staff => (
-                    <div key={staff.id}>
-                      <img
-                        src={
-                          staff.profile_path !== null
-                            ? `https://image.tmdb.org/t/p/w154${staff.profile_path}`
-                            : avatar
-                        }
-                        alt={staff.name}
-                      />
-                      <span>{staff.name}</span>
-                    </div>
-                  ))}
-              </div>
-            </S.WrapperStaff>
+
+            <S.Wrapper>
+              <S.Title>Elenco Principal</S.Title>
+              <MovieCasts moviecasts={movieDetail.cast} />
+            </S.Wrapper>
           </S.DetailContainer>
         )}
       </S.Container>

@@ -22,7 +22,7 @@ export const MostPopularContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   max-width: 1140px;
   padding: 11rem 0 ${theme.spacings.small} 0;
   overflow: auto;

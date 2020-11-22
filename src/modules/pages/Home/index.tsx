@@ -18,9 +18,12 @@ import * as S from './styles';
 const Home = () => {
   const {
     movies,
+    query,
     finalPage,
     handleShowMovies,
     handleUpdateMovies,
+    handleFindMovies,
+    handleUpdateFindMovies,
   } = useContext(MoviesContext);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -45,17 +48,45 @@ const Home = () => {
 
   useEffect(() => {
     if (page === 1) {
-      console.log('P', page);
-      handleShowMovies(page);
+      if (!query) {
+        handleShowMovies(page);
+      } else {
+        handleFindMovies(query);
+      }
     }
-  }, [page, handleShowMovies]);
+  }, [page, query, handleShowMovies, handleFindMovies]);
 
   useEffect(() => {
     if (page > 1 && page <= finalPage) {
-      console.log('P', page, 'F', finalPage);
-      handleUpdateMovies(page);
+      if (!query) {
+        handleUpdateMovies(page);
+      } else {
+        handleUpdateFindMovies(query, page);
+      }
     }
-  }, [page, finalPage, handleUpdateMovies]);
+  }, [page, finalPage, query, handleUpdateMovies, handleUpdateFindMovies]);
+
+  const handleOnChangeInput = useCallback(() => {
+    if (query !== '') {
+      handleFindMovies(query);
+    }
+  }, [query, handleFindMovies]);
+
+  useEffect(() => {
+    handleOnChangeInput();
+  }, [handleOnChangeInput, query]);
+
+  // useEffect(() => {
+  //   if (page === 1) {
+  //     handleShowMovies(page);
+  //   }
+  // }, [page, handleShowMovies]);
+
+  // useEffect(() => {
+  //   if (page > 1 && page <= finalPage) {
+  //     handleUpdateMovies(page);
+  //   }
+  // }, [page, finalPage, handleUpdateMovies]);
 
   return (
     <>
