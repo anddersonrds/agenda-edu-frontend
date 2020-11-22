@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, InputHTMLAttributes } from 'react';
+import React, { useContext, InputHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
+import { DebounceInput } from 'react-debounce-input';
 
 import { MoviesContext } from '../../context/MoviesContext';
-import { useDebounce } from '../../hooks/useDebounce';
 
 import * as S from './styles';
 
@@ -12,14 +12,7 @@ type HeaderProps = {
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const Header = ({ logo, back }: HeaderProps) => {
-  const [query, search, setSearch] = useDebounce<string>('', 500);
-  const { handleFindMovies } = useContext(MoviesContext);
-
-  useEffect(() => {
-    if (search !== '') {
-      handleFindMovies(query);
-    }
-  }, [query, search, handleFindMovies]);
+  const { query, setQuery } = useContext(MoviesContext);
 
   return (
     <S.Container>
@@ -39,16 +32,13 @@ const Header = ({ logo, back }: HeaderProps) => {
           </Link>
         )}
 
-        <S.Form
-          onSubmit={() => {
-            console.log('WOW');
-          }}
-        >
-          <input
+        <S.Form>
+          <DebounceInput
             type="text"
             placeholder="Pesquise filmes por nome"
-            value={search}
-            onChange={event => setSearch(event.target.value)}
+            value={query}
+            debounceTimeout={500}
+            onChange={event => setQuery(event.target.value)}
           />
           <button type="submit">Pesquisar</button>
         </S.Form>

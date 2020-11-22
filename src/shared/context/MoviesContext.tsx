@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 import React, { useState, createContext, useCallback } from 'react';
+
 import { MoviesService } from '../services/moviesService';
 
-import { getSmallImage, getBigImage } from '../utils';
+import { getMediumImage, getLargeImage } from '../utils';
 
 type MoviesListProps = Array<MovieProps>;
 
@@ -11,7 +12,7 @@ type CastProps = Array<{
   cast_id: number;
   name: string;
   character: string;
-  profile_path?: string;
+  profile_path: string;
 }>;
 
 type SocialProps = {
@@ -46,11 +47,14 @@ type MoviesContextData = {
   movies: MoviesListProps;
   movieDetail: MovieProps;
   finalPage: number;
-  handleShowMovies(page: number): void;
+  query: string;
+  handleShowMovies(page?: number): void;
   handleUpdateMovies(page: number): void;
   handleGetMovie(id: string): void;
-  handleFindMovies(query: string): void;
+  handleFindMovies(query: string, page?: number): void;
+  handleUpdateFindMovies(query: string, page: number): void;
   setFinalPage(page: number): void;
+  setQuery(query: string): void;
 };
 
 export const MoviesContext = createContext<MoviesContextData>(
@@ -61,6 +65,7 @@ export const MoviesProvider: React.FC = ({ children }) => {
   const [movies, setMovies] = useState<MoviesListProps>([] as MoviesListProps);
   const [movieDetail, setMovieDetail] = useState<MovieProps>({} as MovieProps);
   const [finalPage, setFinalPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>('');
 
   const handleShowMovies = useCallback(async (pageNumber: number) => {
     const moviesService = new MoviesService();
@@ -69,7 +74,7 @@ export const MoviesProvider: React.FC = ({ children }) => {
     setMovies(
       data.results.map((movie: MovieProps) => ({
         ...movie,
-        image: getSmallImage(movie.poster_path),
+        image: getLargeImage(movie.poster_path),
       })),
     );
   }, []);
@@ -81,7 +86,7 @@ export const MoviesProvider: React.FC = ({ children }) => {
       ...prevMovies,
       ...data.results.map((movie: MovieProps) => ({
         ...movie,
-        image: getSmallImage(movie.poster_path),
+        image: getMediumImage(movie.poster_path),
       })),
     ]);
   }, []);
@@ -95,16 +100,44 @@ export const MoviesProvider: React.FC = ({ children }) => {
       ...detailData,
       cast: castData.cast,
       networks: socialData,
-      image: getBigImage(detailData.poster_path),
+      image: getLargeImage(detailData.poster_path),
     });
   }, []);
 
-  const handleFindMovies = useCallback(async (query: string) => {
-    const moviesService = new MoviesService();
-    const data = await moviesService.searchMovies(query);
-    console.log('DATA', data);
-    // console.log('STATUS', status);
-  }, []);
+  const handleFindMovies = useCallback(
+    async (searched: string, pageNumber: number) => {
+      const moviesService = new MoviesService();
+      const { data, status } = await moviesService.searchMovies(
+        searched,
+        pageNumber,
+      );
+      if (status === 200) {
+        setMovies(
+          data.results.map((movie: MovieProps) => ({
+            ...movie,
+            image: getMediumImage(movie.poster_path),
+          })),
+        );
+        setFinalPage(data.total_results);
+      }
+    },
+    [],
+  );
+
+  const handleUpdateFindMovies = useCallback(
+    async (searched: string, pageNumber: number) => {
+      const moviesService = new MoviesService();
+      const { data } = await moviesService.searchMovies(searched, pageNumber);
+      setMovies(prevMovies => [
+        ...prevMovies,
+        ...data.results.map((movie: MovieProps) => ({
+          ...movie,
+          image: getMediumImage(movie.poster_path),
+        })),
+      ]);
+    },
+    [],
+  );
 
   return (
     <MoviesContext.Provider
@@ -112,11 +145,14 @@ export const MoviesProvider: React.FC = ({ children }) => {
         movies,
         movieDetail,
         finalPage,
+        query,
         handleShowMovies,
         handleUpdateMovies,
         handleGetMovie,
         handleFindMovies,
+        handleUpdateFindMovies,
         setFinalPage,
+        setQuery,
       }}
     >
       {children}
