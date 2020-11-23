@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 
@@ -25,12 +25,9 @@ const Header = ({ logo, back }: HeaderProps) => {
         )}
 
         {logo && (
-          <Link to="/">
-            <S.LogoTMDB
-              src="https://bit.ly/3lXlcpn"
-              alt="The Movie Database (TMDB)"
-            />
-          </Link>
+          <S.LogoTMDB to="/">
+            <img src="https://bit.ly/3lXlcpn" alt="The Movie Database (TMDB)" />
+          </S.LogoTMDB>
         )}
 
         <S.Form>

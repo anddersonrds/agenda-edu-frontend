@@ -21,6 +21,22 @@ export const Wrapper = styled.div`
   -webkit-overflow-scrolling: touch;
   -ms--ms-overflow-style: -ms-autohiding-scrollbar;
 
+  @media (max-width: 1140px) {
+    max-width: 912px;
+  }
+
+  @media (max-width: 912px) {
+    max-width: 684px;
+  }
+
+  @media (max-width: 684px) {
+    max-width: 456px;
+  }
+
+  @media (max-width: 456px) {
+    max-width: 228px;
+  }
+
   &::after {
     content: '→';
     position: absolute;
@@ -43,6 +59,18 @@ export const Wrapper = styled.div`
       width: 155px;
       border-radius: 10px;
       box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+
+      @media (max-width: 912px) {
+        width: 120px;
+      }
+
+      @media (max-width: 684px) {
+        width: 90px;
+      }
+
+      @media (max-width: 456px) {
+        max-width: 228px;
+      }
     }
 
     span {
@@ -50,6 +78,10 @@ export const Wrapper = styled.div`
       font-size: ${theme.sizes.medium};
       font-weight: ${theme.font.bold};
       margin-top: ${theme.spacings.xxsmall};
+
+      @media (max-width: 456px) {
+        font-size: ${theme.sizes.xsmall};
+      }
     }
 
     &:hover {

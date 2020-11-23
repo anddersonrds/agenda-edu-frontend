@@ -28,17 +28,50 @@ export const DetailContainer = styled.div`
   padding: 11rem 0 ${theme.spacings.medium} 0;
 
   animation: ${appearFromBottom} 1.5s;
+
+  @media (max-width: 1140px) {
+    max-width: 912px;
+  }
+
+  @media (max-width: 912px) {
+    max-width: 684px;
+  }
+
+  @media (max-width: 684px) {
+    max-width: 456px;
+  }
+
+  @media (max-width: 456px) {
+    max-width: 228px;
+    padding: 8rem 0;
+  }
 `;
 
 export const InfoMovie = styled.div`
   display: flex;
   padding: ${theme.spacings.medium} 0;
+
+  @media (max-width: 456px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 456px) {
+    max-width: 228px;
+  }
 `;
 
 export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  @media (max-width: 912px) {
+    max-width: 344px;
+  }
+
+  @media (max-width: 684px) {
+    max-width: 250px;
+  }
 `;
 
 type WrapperProps = {
@@ -69,10 +102,18 @@ export const Title = styled.strong`
   font-weight: ${theme.font.bold};
   margin-bottom: ${theme.spacings.xxsmall};
   color: ${theme.colors.gray};
+
+  @media (max-width: 684px) {
+    font-size: ${theme.sizes.large};
+  }
 `;
 
 export const Content = styled.p`
   font-size: ${theme.sizes.large};
+
+  @media (max-width: 684px) {
+    font-size: ${theme.sizes.medium};
+  }
 `;
 
 export const Phrase = styled.span`
@@ -81,6 +122,10 @@ export const Phrase = styled.span`
   font-weight: ${theme.font.bold};
   padding-top: ${theme.spacings.xxsmall};
   color: ${theme.colors.secondary};
+
+  @media (max-width: 684px) {
+    font-size: ${theme.sizes.medium};
+  }
 `;
 
 export const Tags = styled.div`
@@ -101,6 +146,7 @@ export const Tags = styled.div`
 export const Categories = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   > div {
     width: fit-content;
@@ -110,13 +156,11 @@ export const Categories = styled.div`
     background: linear-gradient(${theme.colors.gradient});
     cursor: pointer;
     transition: background-color 0.5s;
+    margin-top: 5px;
+    margin-right: 5px;
 
     &:hover {
       background: linear-gradient(82deg, #39e6d7 0%, #02b4e4 100%);
-    }
-
-    & + div {
-      margin-left: 5px;
     }
   }
 `;

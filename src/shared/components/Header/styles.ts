@@ -1,6 +1,8 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { FiChevronLeft, FiSearch } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import theme from '../../styles/theme';
 
 export const Container = styled.div`
@@ -24,6 +26,22 @@ export const HeaderContent = styled.div`
   > a {
     height: 30px;
   }
+
+  @media (max-width: 1140px) {
+    max-width: 912px;
+  }
+
+  @media (max-width: 912px) {
+    max-width: 684px;
+  }
+
+  @media (max-width: 684px) {
+    max-width: 456px;
+  }
+
+  @media (max-width: 456px) {
+    max-width: 228px;
+  }
 `;
 
 type ButtonTypes =
@@ -35,8 +53,14 @@ export const GoBackButton = styled.button<ButtonTypes>`
   background: none;
 `;
 
-export const LogoTMDB = styled.img`
-  height: 3rem;
+export const LogoTMDB = styled(Link)`
+  img {
+    height: 3rem;
+  }
+
+  @media (max-width: 684px) {
+    display: none;
+  }
 `;
 
 export const GoBack = styled(FiChevronLeft)`
@@ -54,6 +78,22 @@ export const Form = styled.div`
   max-width: 700px;
   width: 100%;
 
+  @media (max-width: 1140px) {
+    max-width: 456px;
+  }
+
+  @media (max-width: 912px) {
+    max-width: 342px;
+  }
+
+  @media (max-width: 684px) {
+    max-width: 456px;
+  }
+
+  @media (max-width: 456px) {
+    max-width: none;
+  }
+
   input {
     flex: 1;
     height: 50px;
@@ -63,6 +103,12 @@ export const Form = styled.div`
     border-top-left-radius: ${theme.spacings.xxsmall};
     border-bottom-left-radius: ${theme.spacings.xxsmall};
     color: ${theme.colors.primary};
+
+    @media (max-width: 456px) {
+      padding: 0 ${theme.spacings.xsmall};
+      font-size: ${theme.sizes.xsmall};
+      border-radius: ${theme.spacings.xxsmall};
+    }
 
     &:hover {
       box-shadow: 1px 1px 1px ${theme.colors.light};
@@ -89,6 +135,14 @@ export const Button = styled.div`
 
   &:hover {
     background: linear-gradient(82deg, #39e6d7 0%, #02b4e4 100%);
+  }
+
+  @media (max-width: 912px) {
+    max-width: 54px;
+  }
+
+  @media (max-width: 456px) {
+    display: none;
   }
 `;
 
