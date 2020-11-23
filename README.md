@@ -5,7 +5,7 @@
  <a href="#-sobre">Sobre</a> •
  <a href="#-layout">Layout</a> •
  <a href="#-rotas-da-api">Rotas da API</a> •
- <a href="#-executando-o-happy">Como executar</a> •
+ <a href="#-executando-a-aplicação">Como executar</a> •
  <a href="#tecnologias">Tecnologias</a> •
  <a href="#como-contribuir">Como contribuir</a> •
  <a href="#-licença">Licença</a>
@@ -58,7 +58,7 @@ GET - https://api.themoviedb.org/3/search/movie?api_key=${apikey}&language=pt-BR
 - NodeJS
 - Gerenciador de pacotes (Npm ou Yarn)
 
-### ♊ Clonando o Repositório
+## 💻 Clonando o Repositório
 
 ```bash
 
@@ -103,7 +103,7 @@ As ferramentas usadas no desenvolvimento do projeto.
 
 #### SPA React:
 - Typescript
-- ReactJS ⚛️
+- ReactJS
 - React Router Dom
 - React Icons
 - Styled Components
