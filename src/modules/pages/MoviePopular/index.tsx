@@ -24,9 +24,12 @@ const MoviePopular = () => {
     handleShowMovies,
     handleUpdateMovies,
   } = useContext(MoviesContext);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+
   const history = useHistory();
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [firstLoad, setFirstLoad] = useState<boolean>(false);
+
   const scrollObserver = useRef<IntersectionObserver>();
 
   const lastMovieElementRef = useCallback(
@@ -47,8 +50,12 @@ const MoviePopular = () => {
 
   useEffect(() => {
     setQuery('');
+  }, [setQuery]);
+
+  useEffect(() => {
     if (page === 1) {
       handleShowMovies(page);
+      setFirstLoad(true);
     }
   }, [page, handleShowMovies, setQuery]);
 
@@ -59,10 +66,10 @@ const MoviePopular = () => {
   }, [page, finalPage, handleUpdateMovies]);
 
   useEffect(() => {
-    if (query.length > 0) {
+    if (query.length > 0 && firstLoad === true) {
       history.push(`/movies/searched/${query}`);
     }
-  }, [query, history]);
+  }, [query, history, firstLoad]);
 
   return (
     <>

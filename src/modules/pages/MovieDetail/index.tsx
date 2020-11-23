@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MoviesContext } from '../../../shared/context/MoviesContext';
 
 import { fixRating, getLocaleDate } from '../../../shared/utils';
@@ -17,20 +17,11 @@ type ParamsProps = {
 
 const MovieDetail = () => {
   const { id } = useParams<ParamsProps>();
-  const { movieDetail, handleGetMovie, query, setQuery } = useContext(
-    MoviesContext,
-  );
-  const history = useHistory();
+  const { movieDetail, handleGetMovie, setQuery } = useContext(MoviesContext);
 
   useEffect(() => {
     handleGetMovie(id);
   }, [id, handleGetMovie, setQuery]);
-
-  // useEffect(() => {
-  //   if (query.length > 0) {
-  //     history.push(`/movies/searched/${query}`);
-  //   }
-  // }, [query, history]);
 
   return (
     <>

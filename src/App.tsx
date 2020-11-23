@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { MoviesProvider } from './shared/context/MoviesContext';
+import AppProvider from './shared/context';
 
 import Routes from './routes';
 
@@ -9,9 +9,9 @@ import GlobalStyle from './shared/styles/global';
 
 const App = () => (
   <BrowserRouter>
-    <MoviesProvider>
+    <AppProvider>
       <Routes />
-    </MoviesProvider>
+    </AppProvider>
     <GlobalStyle />
   </BrowserRouter>
 );
