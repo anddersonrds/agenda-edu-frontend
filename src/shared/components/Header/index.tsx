@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 
 import { MoviesContext } from '../../context/MoviesContext';
@@ -20,12 +20,12 @@ const Header = ({ logo, back }: HeaderProps) => {
       <S.HeaderContent>
         {back && (
           <S.GoBackButton onClick={history.goBack}>
-            <S.GoBack size={30} />
+            <S.GoBack aria-label="goback" size={30} />
           </S.GoBackButton>
         )}
 
         {logo && (
-          <S.LogoTMDB to="/">
+          <S.LogoTMDB aria-label="logoTMDB" to="/">
             <img src="https://bit.ly/3lXlcpn" alt="The Movie Database (TMDB)" />
           </S.LogoTMDB>
         )}
@@ -39,7 +39,7 @@ const Header = ({ logo, back }: HeaderProps) => {
             onChange={e => setQuery(e.target.value)}
           />
           <S.Button>
-            <S.IconSearch size={30} />
+            <S.IconSearch aria-label="search" size={30} />
           </S.Button>
         </S.Form>
       </S.HeaderContent>
