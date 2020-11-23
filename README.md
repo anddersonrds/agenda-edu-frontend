@@ -83,6 +83,14 @@ $ npm install
 
 ```
 
+Adiciones suas credênciais
+
+```bash
+
+Modifique o arquivo .env.example adicionando sua APIKEY
+
+```
+
 Rode a aplicação
 
 ```bash
