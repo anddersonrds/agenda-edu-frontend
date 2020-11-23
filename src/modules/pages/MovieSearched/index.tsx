@@ -6,7 +6,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { MoviesContext } from '../../../shared/context/MoviesContext';
 
@@ -23,8 +23,8 @@ const MovieSearched = () => {
     handleFindMovies,
     handleUpdateFindMovies,
   } = useContext(MoviesContext);
-
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const [page, setPage] = useState(1);
 
   const observer = useRef<IntersectionObserver>();
@@ -56,6 +56,12 @@ const MovieSearched = () => {
       handleUpdateFindMovies(query, page);
     }
   }, [query, page, finalPage, handleUpdateFindMovies]);
+
+  useEffect(() => {
+    if (query === '') {
+      history.push('/');
+    }
+  }, [query, history]);
 
   return (
     <>

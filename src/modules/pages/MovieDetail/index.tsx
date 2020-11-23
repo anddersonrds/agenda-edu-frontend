@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { MoviesContext } from '../../../shared/context/MoviesContext';
 
 import { fixRating, getLocaleDate } from '../../../shared/utils';
@@ -17,15 +17,24 @@ type ParamsProps = {
 
 const MovieDetail = () => {
   const { id } = useParams<ParamsProps>();
-  const { movieDetail, handleGetMovie } = useContext(MoviesContext);
+  const { movieDetail, handleGetMovie, query, setQuery } = useContext(
+    MoviesContext,
+  );
+  const history = useHistory();
 
   useEffect(() => {
     handleGetMovie(id);
-  }, [id, handleGetMovie]);
+  }, [id, handleGetMovie, setQuery]);
+
+  // useEffect(() => {
+  //   if (query.length > 0) {
+  //     history.push(`/movies/searched/${query}`);
+  //   }
+  // }, [query, history]);
 
   return (
     <>
-      <Header back breakPoint />
+      <Header back logo />
       <S.Container>
         {movieDetail && movieDetail.image && (
           <S.DetailContainer>
@@ -69,19 +78,24 @@ const MovieDetail = () => {
                 <S.Wrapper>
                   <S.Title>Categorias</S.Title>
                   <S.Categories>
-                    {movieDetail.genres &&
+                    {movieDetail.genres.length > 0 ? (
                       movieDetail.genres.map(genre => (
                         <S.Tags key={genre.id}>{genre.name}</S.Tags>
-                      ))}
+                      ))
+                    ) : (
+                      <S.Content>Nenhuma categoria apresentada.</S.Content>
+                    )}
                   </S.Categories>
                 </S.Wrapper>
               </S.InfoContainer>
             </S.InfoMovie>
 
-            <S.Wrapper>
-              <S.Title>Elenco Principal</S.Title>
-              <MovieCasts moviecasts={movieDetail.cast && movieDetail.cast} />
-            </S.Wrapper>
+            {movieDetail.cast.length > 0 && (
+              <S.Wrapper>
+                <S.Title>Elenco Principal</S.Title>
+                <MovieCasts moviecasts={movieDetail.cast} />
+              </S.Wrapper>
+            )}
           </S.DetailContainer>
         )}
       </S.Container>

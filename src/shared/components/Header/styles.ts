@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { FiChevronLeft, FiSearch } from 'react-icons/fi';
-
+import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 export const Container = styled.div`
@@ -24,6 +24,15 @@ export const HeaderContent = styled.div`
   > a {
     height: 30px;
   }
+`;
+
+type ButtonTypes =
+  | AnchorHTMLAttributes<HTMLAnchorElement>
+  | ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const GoBackButton = styled.button<ButtonTypes>`
+  border: none;
+  background: none;
 `;
 
 export const LogoTMDB = styled.img`

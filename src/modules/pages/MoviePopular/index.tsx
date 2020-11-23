@@ -6,7 +6,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { MoviesContext } from '../../../shared/context/MoviesContext';
 
@@ -19,12 +19,14 @@ const MoviePopular = () => {
   const {
     movies,
     finalPage,
+    query,
+    setQuery,
     handleShowMovies,
     handleUpdateMovies,
   } = useContext(MoviesContext);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-
+  const history = useHistory();
   const scrollObserver = useRef<IntersectionObserver>();
 
   const lastMovieElementRef = useCallback(
@@ -44,16 +46,23 @@ const MoviePopular = () => {
   );
 
   useEffect(() => {
+    setQuery('');
     if (page === 1) {
       handleShowMovies(page);
     }
-  }, [page, handleShowMovies]);
+  }, [page, handleShowMovies, setQuery]);
 
   useEffect(() => {
     if (page > 1 && page <= finalPage) {
       handleUpdateMovies(page);
     }
   }, [page, finalPage, handleUpdateMovies]);
+
+  useEffect(() => {
+    if (query.length > 0) {
+      history.push(`/movies/searched/${query}`);
+    }
+  }, [query, history]);
 
   return (
     <>

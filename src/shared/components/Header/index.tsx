@@ -9,28 +9,19 @@ import * as S from './styles';
 type HeaderProps = {
   logo?: boolean;
   back?: boolean;
-  breakPoint?: boolean;
 };
 
-const Header = ({ logo, breakPoint, back }: HeaderProps) => {
+const Header = ({ logo, back }: HeaderProps) => {
   const { query, setQuery } = useContext(MoviesContext);
   const history = useHistory();
-
-  useEffect(() => {
-    if (query.length > 0) {
-      history.push(`/movie/searched/${query}`);
-    } else if (query === '' && breakPoint === false) {
-      history.push('/');
-    }
-  }, [query, history, breakPoint]);
 
   return (
     <S.Container>
       <S.HeaderContent>
         {back && (
-          <Link to="/">
+          <S.GoBackButton onClick={history.goBack}>
             <S.GoBack size={30} />
-          </Link>
+          </S.GoBackButton>
         )}
 
         {logo && (
